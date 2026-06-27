@@ -993,7 +993,7 @@
                             Text = tab:gsub("Tab", "");
                             Parent = Temp.Button;
                             Name = "\0";
-                            BackgroundTransparency = _==1 and 1;
+                            BackgroundTransparency = _==1 and 1 or 0;
                             Size = dim2(0, 0, 1, 0);
                             BorderSizePixel = 0;
                             AutomaticSize = Enum.AutomaticSize.XY;
@@ -1020,7 +1020,7 @@
                             Position = dim2(0, 0, 1, 1);
                             Size = dim2(1, 0, 0, 1);
                             ZIndex = 3;
-                            BackgroundTransparency = _==1 and 0;
+                            BackgroundTransparency = _==1 and 0 or 1;
                             BorderSizePixel = 0;
                             BackgroundColor3 = themes.preset.gradient
                         });	Library:Themify(Temp.Fill, "gradient", "BackgroundColor3")
@@ -4655,10 +4655,16 @@
                 Items.Key.Text = "..."	
 
                 Cfg.Binding = Library:Connection(InputService.InputBegan, function(keycode, game_event)  
+                    Cfg.JustBound = true -- swallow this same input on the live listener below, so binding a key doesn't also toggle it
+
                     Cfg.Set(keycode.KeyCode ~= Enum.KeyCode.Unknown and keycode.KeyCode or keycode.UserInputType)
                     
                     Cfg.Binding:Disconnect() 
                     Cfg.Binding = nil
+
+                    task.defer(function() 
+                        Cfg.JustBound = false 
+                    end)
                 end)
             end)
 
@@ -4681,6 +4687,11 @@
                 
                 if not game_event then
                     local selected_key = input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode or input.UserInputType
+
+                    if Cfg.JustBound then
+                        -- this exact input frame already set the key via the bind-capture listener above; don't also toggle it
+                        return
+                    end
 
                     if selected_key == Cfg.Key then 
                         if Cfg.Mode == "Toggle" then 
