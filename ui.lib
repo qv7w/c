@@ -4691,31 +4691,25 @@ local function getPing()
     if pingStat then
         return math.floor(pingStat:GetValue())
     else
-        return 0  -- Fallback if ping stat is unavailable
+        return 0
     end
 end
 
--- Function to calculate FPS
 local function calculateFPS()
     local currentTime = tick()
-    table.insert(frameTimes, currentTime)
-    -- Keep frame times for the last 1 second
     while frameTimes[1] and currentTime - frameTimes[1] > 1 do
         table.remove(frameTimes, 1)
     end
-    -- FPS is the number of frames in the last second
     fps = #frameTimes
     return fps
 end
 
--- Function to update the watermark
 local function updateWatermark()
     local currentFPS = calculateFPS()
     local ping = getPing()
     Items["Text"].Instance.Text = string.format("%s | %d fps | %d ms", Name, currentFPS, ping)
 end
 
--- Start the update loop
 local updateConnection = nil
 local function startWatermarkUpdates(delay)
     if updateConnection then
@@ -4723,7 +4717,7 @@ local function startWatermarkUpdates(delay)
     end
     updateDelay = delay
     lastUpdateTime = tick()
-    frameTimes = {tick()}  -- Reset frame times
+    frameTimes = {tick()}
 
     updateConnection = RunService.Heartbeat:Connect(function()
         table.insert(frameTimes, tick())
@@ -4735,7 +4729,6 @@ local function startWatermarkUpdates(delay)
     end)
 end
 
--- Start with a 0.5-second delay
 startWatermarkUpdates(0.05)
 
 
