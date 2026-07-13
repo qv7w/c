@@ -1909,7 +1909,8 @@ local Library = {
             end)
     
             Library:Connect(UserInputService.InputBegan, function(Input, GPE)
-                if Keybind.Value == "none" then
+                local val = string.lower(tostring(Keybind.Value))
+                if val == "none" or val == "unknown" or val == "" then
                     return
                 end
     
@@ -1945,7 +1946,8 @@ local Library = {
                     return
                 end
 
-                if Keybind.Value == "None" then
+                local val = string.lower(tostring(Keybind.Value))
+                if val == "none" or val == "unknown" or val == "" then
                     return
                 end
     
