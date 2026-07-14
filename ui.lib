@@ -3827,7 +3827,6 @@ local Library = {
                     BackgroundColor3 = Library.Theme["Background"],
                     ScrollBarThickness = 3,
                     ScrollingDirection = Enum.ScrollingDirection.Y,
-                    AutomaticCanvasSize = Enum.AutomaticSize.Y,
                     CanvasSize = UDim2.new(0,0,0,0),
                     ScrollBarImageColor3 = Library.Theme["Accent"]
                 }):AddToTheme({BackgroundColor3 = 'Background', ScrollBarImageColor3 = 'Accent'})
@@ -4083,6 +4082,7 @@ local Library = {
                     local textH = Library.FontSize or 14
                     local contentH = 16 + (optionCount * textH) + (math.max(optionCount - 1, 0) * 8)
                     local targetH = math.max(math.min(contentH, maxH), 32)
+                    OptionHolder.CanvasSize = UDim2.new(0, 0, 0, contentH)
                     OptionHolder.Size = UDim2.new(0, w, 0, targetH)
                     
                     Items["OptionHolder"]:Tween({
