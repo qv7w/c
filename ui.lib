@@ -3740,21 +3740,27 @@ local Library = {
                     AutomaticSize = Enum.AutomaticSize.Y
                 }):AddToTheme({TextColor3 = 'Text'})          
                 
-                Items["OptionHolder"] = Library:Create("TextButton", {
+                Items["OptionHolder"] = Library:Create("ScrollingFrame", {
                     Name = "\0",
-                    FontFace = Library.Font,
-                    TextSize = Library.FontSize,
                     Parent = Library.Holder.Instance,
                     Visible = false,
-                    TextColor3 = Color3.fromRGB(0, 0, 0),
-                    Text = "",
-                    AutoButtonColor = false,
                     Size = UDim2.new(0, 200, 0, 50),
                     Position = UDim2.new(0, 792, 0, 649),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.Y,
-                    BackgroundColor3 = Library.Theme["Background"]
-                }):AddToTheme({BackgroundColor3 = 'Background'})
+                    BackgroundColor3 = Library.Theme["Background"],
+                    ScrollBarThickness = 2,
+                    ScrollingDirection = Enum.ScrollingDirection.Y,
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+                    CanvasSize = UDim2.new(0,0,0,0),
+                    ScrollBarImageColor3 = Library.Theme["Outline"]
+                }):AddToTheme({BackgroundColor3 = 'Background', ScrollBarImageColor3 = 'Outline'})
+
+                Library:Create("UISizeConstraint", {
+                    Name = "\0",
+                    Parent = Items["OptionHolder"].Instance,
+                    MaxSize = Vector2.new(math.huge, Params.Max or 250)
+                })
                 
                 Library:Create("UIStroke", {
                     Name = "\0",
