@@ -4076,14 +4076,10 @@ local Library = {
 
                     local Scale = Library:GetScreenScale()
                     local maxH = Params.Max or 250
+                    local w = RealDropdown.AbsoluteSize.X / Scale
                     OptionHolder.Position = Library:PopupPosition(RealDropdown, OptionHolder, 0)
-                    OptionHolder.Size = UDim2.new(0, RealDropdown.AbsoluteSize.X / Scale, 0, 40)
-
-                    task.defer(function()
-                        local canvas = OptionHolder.AbsoluteCanvasSize.Y
-                        local targetH = math.min(math.max(canvas, 40), maxH)
-                        OptionHolder.Size = UDim2.new(0, RealDropdown.AbsoluteSize.X / Scale, 0, targetH)
-                    end)
+                    -- Fixed height like the player list: canvas scrolls inside, frame stays put
+                    OptionHolder.Size = UDim2.new(0, w, 0, maxH)
                     
                     Items["OptionHolder"]:Tween({
                         Position = Library:PopupPosition(RealDropdown, OptionHolder, 10)
