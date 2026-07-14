@@ -2734,7 +2734,7 @@ local Library = {
 
             -- the title animation logic below
             local OffsetX = 8
-            local OffsetY = 9
+            local OffsetY = 15
             local Width = 7 -- this would be the gap between each letter
 
             local WaveHeight = 4
