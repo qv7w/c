@@ -3937,10 +3937,9 @@ local Library = {
                     TextColor3 = Library.Theme["Inactive Text"],
                     Text = Value,
                     AutoButtonColor = false,
-                    Size = UDim2.new(1, 0, 0, 0),
+                    Size = UDim2.new(1, 0, 0, Library.FontSize or 14),
                     BackgroundTransparency = 1,
-                    BorderSizePixel = 0,
-                    AutomaticSize = Enum.AutomaticSize.Y
+                    BorderSizePixel = 0
                 }):AddToTheme({TextColor3 = 'Inactive Text'})
 
                 local OptionData = {
@@ -4079,10 +4078,10 @@ local Library = {
                     local w = RealDropdown.AbsoluteSize.X / Scale
                     OptionHolder.Position = Library:PopupPosition(RealDropdown, OptionHolder, 0)
 
-                    -- Use UIListLayout content size so short dropdowns fit snugly
-                    -- and long ones (FF textures) are capped and scrollable
-                    local layout = Items["_Layout"] and Items["_Layout"].Instance
-                    local contentH = layout and (layout.AbsoluteContentSize.Y + 16) or maxH
+                    local optionCount = 0
+                    for _ in pairs(Dropdown.Options) do optionCount = optionCount + 1 end
+                    local textH = Library.FontSize or 14
+                    local contentH = 16 + (optionCount * textH) + (math.max(optionCount - 1, 0) * 8)
                     local targetH = math.max(math.min(contentH, maxH), 32)
                     OptionHolder.Size = UDim2.new(0, w, 0, targetH)
                     
