@@ -3824,14 +3824,13 @@ local Library = {
                     Size = UDim2.new(0, 200, 0, 50),
                     Position = UDim2.new(0, 792, 0, 649),
                     BorderSizePixel = 0,
-                    AutomaticSize = Enum.AutomaticSize.Y,
                     BackgroundColor3 = Library.Theme["Background"],
-                    ScrollBarThickness = 2,
+                    ScrollBarThickness = 3,
                     ScrollingDirection = Enum.ScrollingDirection.Y,
                     AutomaticCanvasSize = Enum.AutomaticSize.Y,
                     CanvasSize = UDim2.new(0,0,0,0),
-                    ScrollBarImageColor3 = Library.Theme["Outline"]
-                }):AddToTheme({BackgroundColor3 = 'Background', ScrollBarImageColor3 = 'Outline'})
+                    ScrollBarImageColor3 = Library.Theme["Accent"]
+                }):AddToTheme({BackgroundColor3 = 'Background', ScrollBarImageColor3 = 'Accent'})
 
                 Library:Create("UISizeConstraint", {
                     Name = "\0",
@@ -4076,8 +4075,15 @@ local Library = {
                     Items["OptionHolder"].Instance.Visible = true
 
                     local Scale = Library:GetScreenScale()
+                    local maxH = Params.Max or 250
                     OptionHolder.Position = Library:PopupPosition(RealDropdown, OptionHolder, 0)
-                    OptionHolder.Size = UDim2.new(0, RealDropdown.AbsoluteSize.X / Scale, 0, 0)
+                    OptionHolder.Size = UDim2.new(0, RealDropdown.AbsoluteSize.X / Scale, 0, 40)
+
+                    task.defer(function()
+                        local canvas = OptionHolder.AbsoluteCanvasSize.Y
+                        local targetH = math.min(math.max(canvas, 40), maxH)
+                        OptionHolder.Size = UDim2.new(0, RealDropdown.AbsoluteSize.X / Scale, 0, targetH)
+                    end)
                     
                     Items["OptionHolder"]:Tween({
                         Position = Library:PopupPosition(RealDropdown, OptionHolder, 10)
