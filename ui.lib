@@ -3864,7 +3864,7 @@ local Library = {
                     PaddingLeft = UDim.new(0, 8)
                 })
 
-                Library:Create("UIListLayout", {
+                Items["_Layout"] = Library:Create("UIListLayout", {
                     Name = "\0",
                     Parent = Items["OptionHolder"].Instance,
                     Padding = UDim.new(0, 8),
@@ -4078,8 +4078,13 @@ local Library = {
                     local maxH = Params.Max or 250
                     local w = RealDropdown.AbsoluteSize.X / Scale
                     OptionHolder.Position = Library:PopupPosition(RealDropdown, OptionHolder, 0)
-                    -- Fixed height like the player list: canvas scrolls inside, frame stays put
-                    OptionHolder.Size = UDim2.new(0, w, 0, maxH)
+
+                    -- Use UIListLayout content size so short dropdowns fit snugly
+                    -- and long ones (FF textures) are capped and scrollable
+                    local layout = Items["_Layout"] and Items["_Layout"].Instance
+                    local contentH = layout and (layout.AbsoluteContentSize.Y + 16) or maxH
+                    local targetH = math.max(math.min(contentH, maxH), 32)
+                    OptionHolder.Size = UDim2.new(0, w, 0, targetH)
                     
                     Items["OptionHolder"]:Tween({
                         Position = Library:PopupPosition(RealDropdown, OptionHolder, 10)
