@@ -38,11 +38,11 @@ local Library = {
     Flags = { },
     MenuKeybind = tostring(Enum.KeyCode.RightShift), -- has to be a string
 
-    Directory = "juanitaaaaaaa",
+    Directory = "aurahook",
     Folders = {
-        Assets = "/Assets",
-        Configs = "/Configs",
-        Themes = "/Themes"
+        Assets = "/assets",
+        Configs = "/configs",
+        Themes = "/themes"
     },
 
     FontSize = 12,
