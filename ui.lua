@@ -455,14 +455,22 @@ local Library = {
             local Scale = Library:GetScreenScale()
             local DragDelta = (Input.Position - DragStart) / Scale
             
-            local NewX = StartPosition.X.Offset + DragDelta.X
-            local NewY = StartPosition.Y.Offset + DragDelta.Y
-
             local ScreenSize = Gui.Parent.AbsoluteSize / Scale
             local GuiSize = Gui.AbsoluteSize / Scale
             
-            NewX = math.clamp(NewX, 0, ScreenSize.X - GuiSize.X)
-            NewY = math.clamp(NewY, 0, ScreenSize.Y - GuiSize.Y)
+            local StartX = StartPosition.X.Offset + (ScreenSize.X * StartPosition.X.Scale)
+            local StartY = StartPosition.Y.Offset + (ScreenSize.Y * StartPosition.Y.Scale)
+            
+            local NewX = StartX + DragDelta.X
+            local NewY = StartY + DragDelta.Y
+
+            local MinX = GuiSize.X * Gui.AnchorPoint.X
+            local MinY = GuiSize.Y * Gui.AnchorPoint.Y
+            local MaxX = ScreenSize.X - (GuiSize.X * (1 - Gui.AnchorPoint.X))
+            local MaxY = ScreenSize.Y - (GuiSize.Y * (1 - Gui.AnchorPoint.Y))
+            
+            NewX = math.clamp(NewX, MinX, MaxX)
+            NewY = math.clamp(NewY, MinY, MaxY)
     
             Self:Tween({Position = UDim2.new(0, NewX, 0, NewY)}, TweenInfo.new(0.65, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out))
         end
