@@ -1939,6 +1939,9 @@ local Library = {
                         Keybind.Mode = "Toggle"
                         Keybind:SetMode()
                     end
+                    if Key.Toggled ~= nil then
+                        Keybind.Toggled = Key.Toggled
+                    end
     
                     local KeyString = Keys[Keybind.Key] or string.gsub(tostring(RealKey), "Enum.", "") or RealKey
                     local TextToDisplay = KeyString and string.gsub(string.gsub(KeyString, "KeyCode.", ""), "UserInputType.", "") or "none"
